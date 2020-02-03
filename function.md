@@ -147,3 +147,18 @@ ELSE 'poor'
 END AS 评论
 FROM employees
 ```
+####分组函数
+
+1 sum avg max
+
+运算都是忽略null的
+
+2 和distinct混用
+
+3 count
+
+`select count(*) from employees`
+
+select count(1) from employees; 统计个数
+
+INNODB引擎下 count(星) 和 count(1)效率差不多
