@@ -4,6 +4,7 @@
 ```sql
 SELECT * FROM beauty , boys
 ```
+####sql92标准
 
 等值连接
 
@@ -83,3 +84,100 @@ SELECT e1.last_name, e2.last_name
 FROM employees e1, employees e2
 WHERE e1.manager_id = e2.employee_id
 ```
+
+####sql99标准
+
+select 查询
+from 表1 【连接类型】
+join 表2
+连接条件用on
+
+筛选标准用where
+
+内连接
+select 查询列表
+from 表
+
+案例1 查询员工名 部门名
+```sql
+select last_name, department_name
+from employees e
+inner join departments d
+on e.department_id = d.department_id
+```
+
+案例2 查询名字中包含e的员工名和工种名
+
+```sql
+select last_name, job_title
+from employees e inner join
+jobs j
+on e.job_id = j.job_id
+where e.last_name like '%e%'
+
+```
+
+案例3 查询部门个数>3的城市名和部门个数
+
+```sql
+SELECT COUNT(*) c, l.`city`
+FROM departments d INNER JOIN
+locations l
+ON d.`location_id` = l.`location_id`
+GROUP BY l.`city`
+HAVING c > 3
+```
+案例4 查询员工名，部门名，工种名，并按照部门名降序(三表连接)
+
+```sql
+SELECT e.last_name, j.job_title, d.`department_name`
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.`department_id`
+INNER JOIN jobs j ON e.job_id = j.job_id
+ORDER BY d.`department_name`
+```
+
+非等值连接
+
+案例 查询员工工资级别
+```sql
+SELECT e.last_name, j.grade_level
+FROM
+employees e INNER JOIN
+job_grades j ON e.salary BETWEEN j.lowest_sal AND j.highest_sal
+```
+
+自连接
+
+案例 员工以及上级的名字
+
+```sql
+SELECT e1.last_name, e2.last_name 经理
+FROM employees e1 JOIN
+employees e2
+ON e1.manager_id = e2.employee_id
+```
+
+外连接
+
+用于一个表有数据，一个没有的情况下,筛选的null最好选从表中的主键
+
+案例1 没有男朋友的女神
+```sql
+SELECT b.name
+FROM beauty b LEFT JOIN
+boys ON b.boyfriend_id = boys.`id`
+WHERE  boys.id IS NULL
+```
+案例2 查询哪个部门没有员工
+```sql
+SELECT d.`department_name`
+FROM
+departments d LEFT JOIN
+employees e
+ON d.`department_id` = e.department_id
+WHERE e.employee_id IS NULL
+```
+交叉连接
+
+就是笛卡尔连接

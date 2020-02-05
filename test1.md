@@ -1,5 +1,7 @@
 #练习题
 
+注：14题之前都是sql92标准
+
 1 将员工姓名按照首字母排序并且写出姓名长度
 ```sql
 SELECT LENGTH(last_name), SUBSTR(last_name, 1, 1) AS init FROM employees ORDER BY init
@@ -79,4 +81,27 @@ FROM departments d, locations l
 WHERE d.location_id = l.location_id) t1
 GROUP BY t1.tcid
 HAVING c > 2
+```
+14 查询编号>3的女神的男朋友信息，如果没有用null填充
+```sql
+SELECT * FROM
+beauty LEFT JOIN boys
+ON beauty.`boyfriend_id` = boys.`id`
+WHERE beauty.`id` > 3
+```
+
+15 查询哪个城市没有部门
+```sql
+SELECT city FROM
+locations l LEFT JOIN departments d
+ON l.`location_id` = d.`location_id`
+WHERE d.`department_id` IS NULL
+```
+
+16 查询部门名为SAL或者IT的员工信息
+```sql
+SELECT d.`department_name`, e.last_name
+FROM departments d JOIN employees e
+ON d.`department_id` = e.department_id
+WHERE d.`department_name`IN( 'SAL','IT')
 ```
