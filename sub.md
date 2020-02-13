@@ -102,6 +102,8 @@ WHERE (employee_id, salary) = (
 
 select 后面出现的子查询
 
+仅仅支持标量子查询
+
 案例1 查询每个部门的员工个数
 ```sql
 SELECT d.*,(
@@ -110,3 +112,21 @@ SELECT d.*,(
 	WHERE e.department_id = d.`department_id`
 ) c FROM departments d;
 ```
+
+
+from 后面的子查询
+
+案例：查询每个部门平均工资的工资等级
+```sql
+SELECT td, grade_level
+FROM
+(
+	SELECT AVG(salary) ts, e.department_id td
+	FROM employees e
+	GROUP BY department_id
+)
+t1 JOIN job_grades j
+ON t1.ts BETWEEN j.lowest_sal AND j.highest_sal
+```
+
+放在exists后面的子查询

@@ -105,3 +105,20 @@ FROM departments d JOIN employees e
 ON d.`department_id` = e.department_id
 WHERE d.`department_name`IN( 'SAL','IT')
 ```
+
+17 查询工资比本部门平均工资高的员工号，姓名，工资和部门名
+```sql
+SELECT e.last_name, e.salary, e.employee_id,t2.t1dn
+FROM employees e JOIN
+
+(
+	SELECT t1s, t1d, d.`department_name` t1dn
+	FROM departments d JOIN(
+		SELECT AVG(salary) t1s, department_id t1d
+		FROM employees
+		GROUP BY department_id
+	) t1 ON d.`department_id` = t1.t1d
+)t2
+ON e.department_id = t2.t1d
+WHERE e.salary > t2.t1s
+```
