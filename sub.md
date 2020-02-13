@@ -130,3 +130,41 @@ ON t1.ts BETWEEN j.lowest_sal AND j.highest_sal
 ```
 
 放在exists后面的子查询
+
+案例1 查询有员工的部门名
+
+```sql
+SELECT department_name
+FROM departments d
+WHERE EXISTS(
+	SELECT * FROM employees e
+	WHERE d.`department_id` = e.`department_id`
+)
+```
+
+解法2
+```sql
+SELECT d.department_name FROM departments d
+WHERE d.`department_id` IN (
+	SELECT DISTINCT department_id FROM employees
+)
+```
+
+案例2 查询没有女朋友的男神信息
+```sql
+SELECT b.* 
+FROM boys b
+WHERE b.id NOT IN (
+	SELECT DISTINCT boyfriend_id
+	FROM beauty
+)
+```
+解法2
+```sql
+SELECT b.*
+FROM boys b
+WHERE NOT EXISTS (
+	SELECT * FROM beauty
+	WHERE beauty.`boyfriend_id` = b.id
+)
+```

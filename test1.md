@@ -122,3 +122,4 @@ FROM employees e JOIN
 ON e.department_id = t2.t1d
 WHERE e.salary > t2.t1s
 ```
+18
